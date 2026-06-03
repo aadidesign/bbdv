@@ -204,14 +204,19 @@ export function ChatWidget() {
         return res.json();
       };
 
+      // A sleeping free-tier service returns errors while it cold-starts (~30-60s).
+      // Keep the typing indicator showing and quietly retry until it wakes, rather
+      // than surfacing an error mid-boot.
       let data;
-      try {
-        data = await post();
-      } catch {
-        // A sleeping free-tier service drops the first request mid cold start.
-        // Wait for it to finish booting, then try once more.
-        await new Promise((r) => setTimeout(r, 2500));
-        data = await post();
+      const maxAttempts = 15;
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        try {
+          data = await post();
+          break;
+        } catch (err) {
+          if (attempt === maxAttempts - 1) throw err;
+          await new Promise((r) => setTimeout(r, 4000));
+        }
       }
 
       const raw = data.reply || data.error || "Sorry, I had trouble responding. Please try WhatsApp.";
