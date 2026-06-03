@@ -26,7 +26,14 @@ import { cn } from "@/lib/utils";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const ENDPOINT = process.env.NEXT_PUBLIC_CHATBOT_URL || "/api/chat";
+// NEXT_PUBLIC_CHATBOT_URL may be set to the service base (https://x.onrender.com)
+// or the full endpoint. Normalise so we always POST to the chat path either way.
+const RAW_CHAT_URL = (process.env.NEXT_PUBLIC_CHATBOT_URL || "").trim().replace(/\/+$/, "");
+const ENDPOINT = RAW_CHAT_URL
+  ? /\/(api\/)?chat$/i.test(RAW_CHAT_URL)
+    ? RAW_CHAT_URL
+    : `${RAW_CHAT_URL}/api/chat`
+  : "/api/chat";
 
 const GREETING =
   "Hi, I am Aria, your BBDV concierge. I can help with procedures, pricing, the India journey and booking, and put together a free quote for you. What would you like to know?";
