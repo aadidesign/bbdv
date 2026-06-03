@@ -148,6 +148,14 @@ export function ChatWidget() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading, capture, lead]);
 
+  // Free-tier chatbot hosting (Render) spins down when idle, so the first request
+  // after a nap can fail with a cold start. Warm it the moment the panel opens.
+  useEffect(() => {
+    if (!open || !/^https?:/i.test(ENDPOINT)) return;
+    const health = ENDPOINT.replace(/\/(api\/)?chat\/?$/i, "/health");
+    fetch(health, { mode: "no-cors" }).catch(() => {});
+  }, [open]);
+
   // Match a procedure name Aria mentioned to one of our real options.
   function matchProcedure(name: string): string {
     if (!name) return NOT_SURE;
@@ -185,12 +193,27 @@ export function ChatWidget() {
     setInput("");
     setLoading(true);
     try {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next.slice(-12) }),
-      });
-      const data = await res.json();
+      const body = JSON.stringify({ messages: next.slice(-12) });
+      const post = async () => {
+        const res = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body,
+        });
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        return res.json();
+      };
+
+      let data;
+      try {
+        data = await post();
+      } catch {
+        // A sleeping free-tier service drops the first request mid cold start.
+        // Wait for it to finish booting, then try once more.
+        await new Promise((r) => setTimeout(r, 2500));
+        data = await post();
+      }
+
       const raw = data.reply || data.error || "Sorry, I had trouble responding. Please try WhatsApp.";
       const { clean, cue } = parseQuoteCue(String(raw));
       setMessages((m) => [...m, { role: "assistant", content: clean || "Happy to help with that." }]);
@@ -198,7 +221,7 @@ export function ChatWidget() {
     } catch {
       setMessages((m) => [
         ...m,
-        { role: "assistant", content: "I could not reach the assistant just now. You can reach our team on WhatsApp and we will help right away." },
+        { role: "assistant", content: "Aria is just waking up. Please send that again in a few seconds, or reach our team on WhatsApp and we will help right away." },
       ]);
     } finally {
       setLoading(false);
