@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BBDV — Body By Design Vacations | Design System
+   Palette derived from the real brand logo:
+   magenta / vibrant orange / plum-purple on warm ivory.
+   ============================================================ */
+
+@theme {
+  /* Brand core */
+  --color-ink: #1b1014;
+  --color-plum: #6e1a55;
+  --color-plum-700: #551240;
+  --color-magenta: #c2185b;
+  --color-magenta-600: #a8124d;
+  --color-magenta-400: #e0457f;
+  --color-orange: #f4511e;
+  --color-coral: #ff6a3d;
+  --color-amber: #ffa14a;
+  --color-purple: #7b1b6b;
+
+  /* Surfaces */
+  --color-ivory: #fcf8f5;
+  --color-cream: #f6ece6;
+  --color-sand: #efe1d8;
+  --color-rose: #f9e7ef;
+  --color-blush: #fdf1f5;
+
+  /* Text */
+  --color-foreground: #1b1014;
+  --color-muted: #6b5b62;
+  --color-background: #fcf8f5;
+
+  /* Fonts (wired in layout via next/font) */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii */
+  --radius-xl2: 1.75rem;
+
+  /* Brand shadows */
+  --shadow-glow: 0 24px 60px -20px rgba(194, 24, 91, 0.45);
+  --shadow-soft: 0 18px 50px -24px rgba(27, 16, 20, 0.28);
+
+  /* Animations */
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-rev: marquee-rev 42s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-gradient: gradient-pan 8s ease infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+  --animate-calm-pulse: calm-pulse 3s ease-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes gradient-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+/* Gentle "heartbeat" halo for the floating action buttons — soft and slow,
+   never the aggressive ping. */
+@keyframes calm-pulse {
+  0% { transform: scale(1); opacity: 0.45; }
+  70%, 100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis handles smoothing */
+  }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  ::selection {
+    background: var(--color-magenta);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-magenta);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Custom scrollbar ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-cream); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-magenta), var(--color-orange));
+  border-radius: 999px;
+  border: 2px solid var(--color-cream);
+}
+
+/* ---------- Signature utilities ---------- */
+@utility text-gradient {
+  background: linear-gradient(100deg, var(--color-magenta) 0%, var(--color-orange) 55%, var(--color-purple) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-animated {
+  background: linear-gradient(100deg, var(--color-magenta), var(--color-orange) 42%, var(--color-purple) 74%, var(--color-magenta));
+  background-size: 230% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-gradient);
+}
+
+@utility text-gradient-warm {
+  background: linear-gradient(100deg, var(--color-orange), var(--color-coral) 60%, var(--color-amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background: color-mix(in oklab, white 62%, transparent);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid color-mix(in oklab, white 70%, transparent);
+}
+
+/* Stronger frosted surface for the sticky navbar and dropdowns, so dark nav
+   links stay legible even when a vivid section scrolls behind them. */
+@utility glass-nav {
+  background: color-mix(in oklab, white 90%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in oklab, white 82%, transparent);
+}
+
+@utility glass-dark {
+  background: color-mix(in oklab, #2a1620 55%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in oklab, white 14%, transparent);
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(110deg, var(--color-magenta) 0%, var(--color-orange) 52%, var(--color-purple) 100%);
+}
+
+@utility bg-brand-gradient-soft {
+  background-image: linear-gradient(135deg, var(--color-blush), var(--color-rose) 45%, var(--color-cream));
+}
+
+@utility shimmer-text {
+  background: linear-gradient(90deg, var(--color-magenta) 25%, var(--color-amber) 50%, var(--color-magenta) 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-shimmer);
+}
+
+/* Layout helpers */
+.container-bbdv {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) { .container-bbdv { padding-inline: 2rem; } }
+@media (min-width: 1280px) { .container-bbdv { padding-inline: 2.5rem; } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Grain / noise overlay helper */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}

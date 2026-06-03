@@ -1,0 +1,44 @@
+# ---- Dependencies ----
+node_modules/
+.pnp
+.pnp.*
+
+# ---- Build output ----
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# ---- Environment / secrets (NEVER commit real keys) ----
+.env
+.env.*
+!.env.example
+
+# ---- Python (background-removal venv + caches) ----
+.bgvenv/
+__pycache__/
+*.pyc
+
+# ---- Local agent / editor data ----
+.claude/
+.vscode/
+.idea/
+
+# ---- Dev artifacts ----
+research/
+*.log
+server.log
+
+# ---- Lead store (runtime data) ----
+data/
+**/data/leads.json
+
+# ---- Hosting ----
+.vercel
+.netlify
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
