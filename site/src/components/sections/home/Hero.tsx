@@ -44,7 +44,7 @@ export function Hero() {
             <Eyebrow>Cosmetic Surgery Holidays to India</Eyebrow>
           </motion.div>
 
-          <h1 className="mt-6 font-display text-5xl leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 font-display text-[clamp(2.1rem,9vw,3rem)] leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-7xl">
             <span className="block">
               {line1.map((w, i) => (
                 <span key={w} className="inline-block overflow-hidden align-top">
@@ -86,10 +86,10 @@ export function Hero() {
             transition={{ delay: 0.65, duration: 0.7 }}
             className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <Button href="/get-a-quote" size="lg">
+            <Button href="/get-a-quote" size="lg" className="w-full sm:w-auto">
               Get a Free Quote <ArrowRight size={18} />
             </Button>
-            <Button href="/procedures" variant="outline" size="lg">
+            <Button href="/procedures" variant="outline" size="lg" className="w-full sm:w-auto">
               Explore Procedures
             </Button>
           </motion.div>
@@ -109,12 +109,12 @@ export function Hero() {
               </div>
               <p className="mt-1 text-sm text-ink/60">{reviewSummary.count}+ patient reviews</p>
             </div>
-            <div className="h-10 w-px bg-ink/10" />
+            <div className="hidden h-10 w-px bg-ink/10 sm:block" />
             <div className="flex items-center gap-2 text-sm text-ink/70">
               <ShieldCheck size={18} className="text-magenta" />
               Board-certified surgeons
             </div>
-            <div className="h-10 w-px bg-ink/10" />
+            <div className="hidden h-10 w-px bg-ink/10 sm:block" />
             <div className="flex items-center gap-2 text-sm text-ink/70">
               <Plane size={18} className="text-magenta" />
               Patients from 39+ countries
@@ -200,15 +200,15 @@ export function Hero() {
         transition={{ delay: 1.2, duration: 0.7 }}
         className="container-bbdv relative mt-14"
       >
-        <div className="grid grid-cols-2 gap-x-4 gap-y-6 rounded-[1.75rem] border border-white/60 bg-white/60 px-6 py-7 shadow-soft backdrop-blur-sm sm:px-8 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-6 rounded-[1.75rem] border border-white/60 bg-white/60 px-4 py-6 shadow-soft backdrop-blur-sm sm:gap-x-4 sm:px-8 sm:py-7 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="flex items-center gap-3.5">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-magenta/10 text-magenta">
+            <div key={s.label} className="flex items-center gap-2.5 sm:gap-3.5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-magenta/10 text-magenta sm:h-11 sm:w-11">
                 <s.icon size={20} />
               </span>
-              <div>
+              <div className="min-w-0">
                 <p className="text-[0.6rem] font-medium uppercase tracking-[0.16em] text-ink/45">{s.label}</p>
-                <p className="font-display text-xl leading-tight text-ink">{s.value}</p>
+                <p className="font-display text-lg leading-tight text-ink sm:text-xl">{s.value}</p>
                 <p className="text-xs text-ink/55">{s.sub}</p>
               </div>
             </div>

@@ -36,7 +36,7 @@ export function VideoBand() {
           <SplitText
             as="h2"
             text="Arrive as you are. Leave as the you that you imagined."
-            className="mt-5 text-balance text-4xl text-white sm:text-5xl lg:text-6xl"
+            className="mt-5 text-balance text-[clamp(1.9rem,8vw,2.5rem)] text-white sm:text-5xl lg:text-6xl"
           />
           <Reveal direction="up" delay={0.1}>
             <p className="mt-6 max-w-xl text-pretty text-lg text-white/75">
@@ -45,8 +45,8 @@ export function VideoBand() {
           </Reveal>
           <Reveal direction="up" delay={0.2}>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Button href="/get-a-quote" size="lg">Start your journey <ArrowRight size={18} /></Button>
-              <Button href="/how-it-works" variant="light" size="lg">See how it works</Button>
+              <Button href="/get-a-quote" size="lg" className="w-full sm:w-auto">Start your journey <ArrowRight size={18} /></Button>
+              <Button href="/how-it-works" variant="light" size="lg" className="w-full sm:w-auto">See how it works</Button>
             </div>
           </Reveal>
         </div>

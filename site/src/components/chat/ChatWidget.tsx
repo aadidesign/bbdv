@@ -285,7 +285,7 @@ export function ChatWidget() {
               initial={{ opacity: 0, y: 10, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="absolute bottom-16 right-0 w-60 rounded-2xl glass p-3.5 text-left shadow-soft"
+              className="absolute bottom-16 right-0 w-60 rounded-2xl bg-white p-3.5 text-left shadow-soft ring-1 ring-ink/10"
             >
               <span className="flex items-center gap-2 text-sm font-semibold text-ink">
                 <Sparkles size={14} className="text-magenta" /> Questions about your journey?
