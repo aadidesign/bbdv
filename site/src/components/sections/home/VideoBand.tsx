@@ -11,7 +11,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export function VideoBand() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.12, 1.04, 1.12]);
 
   return (
@@ -23,7 +23,7 @@ export function VideoBand() {
         playsInline
         poster="/images/hero/hero-1.jpg"
         style={{ y, scale }}
-        className="absolute inset-x-0 -top-[12%] -bottom-[12%] w-full object-cover"
+        className="absolute inset-x-0 top-[-16%] h-[132%] w-full object-cover"
       >
         <source src="/videos/beauty.mp4" type="video/mp4" />
       </motion.video>
